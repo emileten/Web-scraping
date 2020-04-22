@@ -1,5 +1,12 @@
+#!/usr/bin/python
+
+
+
+
+
 import requests 
 import re
+import time as temps 
 import pandas as pd
 from pprint import pprint  
 from bs4 import BeautifulSoup 
@@ -9,13 +16,19 @@ import urllib3
 import numpy as np
 import os
 import pdb
+import sys
+
 
 
 def master(key):
+    print('starting scraping of glassdoor jobs with the following key : ' + key)
+    t0= temps.time()
     df = do_get_job_info(key)
     df = clean_df(df)
     save_csv(df)
-    return('scraped offers from search with key' + key)
+    t1= temps.time()
+    print('done. time elapsed', round((t1-t0)/60, 3), 'minutes')
+    return('done')
 
 def do_get_job_info(key):
     jobContainer = get_jobContainer(key)
@@ -110,4 +123,4 @@ def hp(h):
   print(h.prettify())
 
 
-master(key)
+master(sys.argv[1])
